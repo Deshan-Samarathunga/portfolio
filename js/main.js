@@ -1,128 +1,3 @@
-// Custom Cursor
-const cursor = document.getElementById('cursor');
-
-if (cursor) {
-    const rings = cursor.querySelectorAll('.ring');
-    
-    // Track mouse movement
-    document.addEventListener('mousemove', (e) => {
-        // Move both rings to mouse position
-        rings.forEach((ring, index) => {
-            const translateX = e.clientX - 24; // 24px = 1.5rem (half of 3rem)
-            const translateY = e.clientY - 24;
-            ring.style.transform = `translateX(${translateX}px) translateY(${translateY}px)`;
-        });
-    });
-    
-    // Add hover effects to interactive elements
-    const interactiveElements = document.querySelectorAll('a, button, .btn, input, textarea, .project-card, .skill-card');
-    
-    interactiveElements.forEach(element => {
-        element.addEventListener('mouseenter', () => {
-            cursor.classList.add('hover');
-        });
-        
-        element.addEventListener('mouseleave', () => {
-            cursor.classList.remove('hover');
-        });
-    });
-    
-    // Hide cursor on touch devices
-    if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
-        cursor.style.display = 'none';
-        document.body.style.cursor = 'default';
-    }
-}
-
-// Mobile Navigation Toggle
-const hamburger = document.getElementById('hamburger');
-const navMenu = document.getElementById('nav-menu');
-
-if (hamburger && navMenu) {
-    hamburger.addEventListener('click', () => {
-        navMenu.classList.toggle('active');
-    });
-
-    // Close menu when clicking on a link
-    document.querySelectorAll('.nav-menu a').forEach(link => {
-        link.addEventListener('click', () => {
-            navMenu.classList.remove('active');
-        });
-    });
-}
-
-// Smooth scroll for navigation links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }
-    });
-});
-
-// Navbar background on scroll
-const navbar = document.getElementById('navbar');
-if (navbar) {
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
-        }
-    });
-}
-
-// Contact Form Handler
-const contactForm = document.getElementById('contact-form');
-if (contactForm) {
-    contactForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        
-        // Get form data
-        const formData = new FormData(contactForm);
-        const name = contactForm.querySelector('input[type="text"]').value;
-        const email = contactForm.querySelector('input[type="email"]').value;
-        const message = contactForm.querySelector('textarea').value;
-        
-        // Here you would typically send the data to a server
-        console.log('Form submitted:', { name, email, message });
-        
-        // Show success message (you can customize this)
-        alert('Thank you for your message! I\'ll get back to you soon.');
-        
-        // Reset form
-        contactForm.reset();
-    });
-}
-
-// Intersection Observer for animations
-const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-};
-
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0)';
-        }
-    });
-}, observerOptions);
-
-// Observe all sections for animation
-document.querySelectorAll('section > .container').forEach(section => {
-    section.style.opacity = '0';
-    section.style.transform = 'translateY(30px)';
-    section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-    observer.observe(section);
-});
-
 // Skills Data (you can modify this or load from a JSON file)
 const skillsData = [
     { name: 'HTML5', image: 'https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/html5.svg', color: '#e34c26' },
@@ -209,8 +84,135 @@ function renderProjects() {
     });
 }
 
-// Initialize on page load
+// Initialize everything when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
+    // Custom Cursor
+    const cursor = document.getElementById('cursor');
+    
+    if (cursor) {
+        const rings = cursor.querySelectorAll('.ring');
+        
+        // Track mouse movement
+        document.addEventListener('mousemove', (e) => {
+            // Move both rings to mouse position
+            rings.forEach((ring, index) => {
+                const translateX = e.clientX - 24; // 24px = 1.5rem (half of 3rem)
+                const translateY = e.clientY - 24;
+                ring.style.transform = `translateX(${translateX}px) translateY(${translateY}px)`;
+            });
+        });
+        
+        // Add hover effects to interactive elements
+        const interactiveElements = document.querySelectorAll('a, button, .btn, input, textarea, .project-card, .skill-card');
+        
+        interactiveElements.forEach(element => {
+            element.addEventListener('mouseenter', () => {
+                cursor.classList.add('hover');
+            });
+            
+            element.addEventListener('mouseleave', () => {
+                cursor.classList.remove('hover');
+            });
+        });
+        
+        // Hide cursor on touch devices
+        if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+            cursor.style.display = 'none';
+            document.body.style.cursor = 'default';
+        }
+    }
+    
+    // Mobile Navigation Toggle
+    const hamburger = document.getElementById('hamburger');
+    const navMenu = document.getElementById('nav-menu');
+    
+    if (hamburger && navMenu) {
+        hamburger.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        });
+        
+        // Close menu when clicking on a link
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+                hamburger.classList.remove('active');
+            });
+        });
+    }
+    
+    // Smooth scroll for navigation links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+    
+    // Navbar background on scroll
+    const navbar = document.getElementById('navbar');
+    if (navbar) {
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+    }
+    
+    // Contact Form Handler
+    const contactForm = document.getElementById('contact-form');
+    if (contactForm) {
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Get form data
+            const name = contactForm.querySelector('input[type="text"]').value;
+            const email = contactForm.querySelector('input[type="email"]').value;
+            const message = contactForm.querySelector('textarea').value;
+            
+            // Here you would typically send the data to a server
+            console.log('Form submitted:', { name, email, message });
+            
+            // Show success message (you can customize this)
+            alert('Thank you for your message! I\'ll get back to you soon.');
+            
+            // Reset form
+            contactForm.reset();
+        });
+    }
+    
+    // Intersection Observer for animations
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, observerOptions);
+    
+    // Observe all sections for animation
+    document.querySelectorAll('section > .container').forEach(section => {
+        section.style.opacity = '0';
+        section.style.transform = 'translateY(30px)';
+        section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(section);
+    });
+    
+    // Render Skills and Projects
     renderSkills();
     renderProjects();
 });
@@ -232,11 +234,10 @@ function typeWriter(element, text, speed = 100) {
 }
 
 // Uncomment to enable typing effect on hero title
-// window.addEventListener('DOMContentLoaded', () => {
+// document.addEventListener('DOMContentLoaded', () => {
 //     const heroTitle = document.querySelector('.hero-title');
 //     if (heroTitle) {
 //         const originalText = heroTitle.textContent;
 //         typeWriter(heroTitle, originalText, 100);
 //     }
 // });
-
