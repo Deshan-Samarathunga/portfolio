@@ -166,6 +166,25 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // Scroll-to-top button
+    const scrollTopBtn = document.getElementById('scroll-to-top');
+    if (scrollTopBtn) {
+        const toggleScrollBtn = () => {
+            if (window.scrollY > window.innerHeight * 0.6) {
+                scrollTopBtn.classList.add('visible');
+            } else {
+                scrollTopBtn.classList.remove('visible');
+            }
+        };
+
+        toggleScrollBtn();
+        window.addEventListener('scroll', toggleScrollBtn, { passive: true });
+
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
     
     // Contact Form Handler
     const contactForm = document.getElementById('contact-form');
