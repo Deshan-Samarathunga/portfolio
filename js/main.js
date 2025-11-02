@@ -1,57 +1,37 @@
 // Custom Cursor
 const cursor = document.getElementById('cursor');
-const cursorFollower = document.getElementById('cursorFollower');
 
-let mouseX = 0;
-let mouseY = 0;
-let followerX = 0;
-let followerY = 0;
-
-// Update cursor position
-function updateCursor() {
-    // Inner cursor follows mouse immediately
-    cursor.style.left = mouseX + 'px';
-    cursor.style.top = mouseY + 'px';
+if (cursor) {
+    const rings = cursor.querySelectorAll('.ring');
     
-    // Outer cursor follows with easing
-    followerX += (mouseX - followerX) * 0.1;
-    followerY += (mouseY - followerY) * 0.1;
-    
-    cursorFollower.style.left = followerX + 'px';
-    cursorFollower.style.top = followerY + 'px';
-    
-    requestAnimationFrame(updateCursor);
-}
-
-// Track mouse movement
-document.addEventListener('mousemove', (e) => {
-    mouseX = e.clientX - 5; // Center the cursor
-    mouseY = e.clientY - 5;
-});
-
-// Add hover effects to interactive elements
-const interactiveElements = document.querySelectorAll('a, button, .btn, input, textarea, .project-card, .skill-card');
-
-interactiveElements.forEach(element => {
-    element.addEventListener('mouseenter', () => {
-        cursor.classList.add('hover');
-        cursorFollower.classList.add('hover');
+    // Track mouse movement
+    document.addEventListener('mousemove', (e) => {
+        // Move both rings to mouse position
+        rings.forEach((ring, index) => {
+            const translateX = e.clientX - 24; // 24px = 1.5rem (half of 3rem)
+            const translateY = e.clientY - 24;
+            ring.style.transform = `translateX(${translateX}px) translateY(${translateY}px)`;
+        });
     });
     
-    element.addEventListener('mouseleave', () => {
-        cursor.classList.remove('hover');
-        cursorFollower.classList.remove('hover');
+    // Add hover effects to interactive elements
+    const interactiveElements = document.querySelectorAll('a, button, .btn, input, textarea, .project-card, .skill-card');
+    
+    interactiveElements.forEach(element => {
+        element.addEventListener('mouseenter', () => {
+            cursor.classList.add('hover');
+        });
+        
+        element.addEventListener('mouseleave', () => {
+            cursor.classList.remove('hover');
+        });
     });
-});
-
-// Start cursor animation
-updateCursor();
-
-// Hide cursor on touch devices
-if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
-    cursor.style.display = 'none';
-    cursorFollower.style.display = 'none';
-    document.body.style.cursor = 'default';
+    
+    // Hide cursor on touch devices
+    if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+        cursor.style.display = 'none';
+        document.body.style.cursor = 'default';
+    }
 }
 
 // Mobile Navigation Toggle
@@ -87,19 +67,15 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 
 // Navbar background on scroll
 const navbar = document.getElementById('navbar');
-let lastScroll = 0;
-
-window.addEventListener('scroll', () => {
-    const currentScroll = window.pageYOffset;
-    
-    if (currentScroll > 100) {
-        navbar.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.2)';
-    } else {
-        navbar.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
-    }
-    
-    lastScroll = currentScroll;
-});
+if (navbar) {
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+    });
+}
 
 // Contact Form Handler
 const contactForm = document.getElementById('contact-form');
